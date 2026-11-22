@@ -1,0 +1,54 @@
+---
+import { formatDate, isoDate, type NewsEntry } from '../lib/news';
+
+interface Props {
+  items: NewsEntry[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length === 0 ? (
+    <p class="rounded-3xl border border-line bg-surface p-6 text-sub">
+      No posts yet. Add a Markdown file to <code>src/content/news/</code> and rebuild.
+    </p>
+  ) : (
+    <ul class="divide-y divide-line overflow-hidden rounded-3xl border border-line bg-surface">
+      {items.map((item) => (
+        <li>
+          <details class="group">
+            <summary class="flex cursor-pointer list-none flex-col gap-1 px-5 py-5 transition-colors hover:bg-tint/60 sm:flex-row sm:items-center sm:gap-6 sm:px-7 [&::-webkit-details-marker]:hidden">
+              <time datetime={isoDate(item.data.date)} class="shrink-0 text-sm tabular-nums text-sub sm:w-36">
+                {formatDate(item.data.date)}
+              </time>
+              <span class="flex-1 font-display text-lg font-semibold leading-snug tracking-tight sm:text-xl">
+                {item.data.title}
+              </span>
+              <span
+                class="hidden size-8 shrink-0 place-items-center rounded-full bg-tint text-accent transition-transform motion-reduce:transition-none group-open:rotate-45 sm:grid"
+                aria-hidden="true"
+              >
+                <svg class="size-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M8 3v10M3 8h10" />
+                </svg>
+              </span>
+            </summary>
+            <div class="px-5 pb-6 sm:pl-[calc(9rem+1.75rem+1.5rem)] sm:pr-7">
+              <p class="max-w-[60ch] leading-relaxed text-sub">{item.data.summary}</p>
+              <a
+                href={`/news/${item.id}/`}
+                class="mt-4 inline-flex items-center gap-2 rounded-full bg-fg px-4 py-2 text-sm font-medium text-bg transition-opacity hover:opacity-85"
+              >
+                Read the full article
+                <svg class="size-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 8h10M9 4l4 4-4 4" />
+                </svg>
+              </a>
+            </div>
+          </details>
+        </li>
+      ))}
+    </ul>
+  )
+}

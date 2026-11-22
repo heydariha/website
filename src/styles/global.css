@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Colour tokens. Light by default, dark follows the visitor's system setting. */
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --fg: #0a0d14;
+  --sub: #5b6472;
+  --line: #e2e5ea;
+  --accent: #2b4cff;
+  --accent-fg: #ffffff;
+  --tint: #e9edff;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0d14;
+    --surface: #111623;
+    --fg: #f1f3f7;
+    --sub: #9aa3b2;
+    --line: #232b3b;
+    --accent: #8da2ff;
+    --accent-fg: #0a0d14;
+    --tint: #1a2140;
+  }
+}
+
+@theme inline {
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-sub: var(--sub);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-tint: var(--tint);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+  body {
+    @apply bg-bg font-sans text-fg antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+}
+
+/* Faint dot grid behind the hero, fading out downwards. */
+.dot-grid {
+  background-image: radial-gradient(var(--line) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(to bottom, #000 20%, transparent 95%);
+}
+
+/* Article typography follows the theme tokens, so dark mode just works. */
+.prose {
+  --tw-prose-body: var(--fg);
+  --tw-prose-headings: var(--fg);
+  --tw-prose-lead: var(--sub);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--fg);
+  --tw-prose-counters: var(--sub);
+  --tw-prose-bullets: var(--sub);
+  --tw-prose-hr: var(--line);
+  --tw-prose-quotes: var(--fg);
+  --tw-prose-quote-borders: var(--accent);
+  --tw-prose-captions: var(--sub);
+  --tw-prose-code: var(--fg);
+  --tw-prose-pre-code: #e6e9f2;
+  --tw-prose-pre-bg: #0f1424;
+  --tw-prose-th-borders: var(--line);
+  --tw-prose-td-borders: var(--line);
+}
